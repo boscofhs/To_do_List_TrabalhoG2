@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lista de Tarefas</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="new-task-container">
+        <input
+          type="text"
+          class="new-task-input"
+          placeholder="Tarefa para ser feita..."
+        />
+
+        <button class="new-task-button">Adicionar</button>
+      </div>
+
+      <div class="tasks-container"></div>
+    </div>
+    <script>
+    const inputElement = document.querySelector(".new-task-input");
+const addTaskButton = document.querySelector(".new-task-button");
+
+const tasksContainer = document.querySelector(".tasks-container");
+
+const validateInput = () => inputElement.value.trim().length > 0;
+
+const handleAddTask = () => {
+  const inputIsValid = validateInput();
+
+  console.log(inputIsValid);
+
+  if (!inputIsValid) {
+    return inputElement.classList.add("erro");
+  }
+
+  const taskItemContainer = document.createElement("div");
+  taskItemContainer.classList.add("task-item");
+
+  const taskContent = document.createElement("p");
+  taskContent.innerText = inputElement.value;
+
+  taskContent.addEventListener("click", () => handleClick(taskContent));
+
+  const deleteItem = document.createElement("i");
+  deleteItem.classList.add("far");
+  deleteItem.classList.add("fa-trash-alt");
+
+  deleteItem.addEventListener("click", () =>
+    handleDeleteClick(taskItemContainer, taskContent)
+  );
+
+  taskItemContainer.appendChild(taskContent);
+  taskItemContainer.appendChild(deleteItem);
+
+  tasksContainer.appendChild(taskItemContainer);
+
+  inputElement.value = "";
+
+  updateLocalStorage();
+};
+
+const handleClick = (taskContent) => {
+  const tarefa = tasksContainer.childNodes;
+
+  for (const task of tarefa) {
+    const currentTaskIsBeingClicked = task.firstChild.isSameNode(taskContent);
+
+    if (currentTaskIsBeingClicked) {
+      task.firstChild.classList.toggle("completo");
+    }
+  }
+
+  updateLocalStorage();
+};
+
+const handleDeleteClick = (taskItemContainer, taskContent) => {
+  const tarefa = tasksContainer.childNodes;
+
+  for (const task of tarefa) {
+    const currentTaskIsBeingClicked = task.firstChild.isSameNode(taskContent);
+
+    if (currentTaskIsBeingClicked) {
+      taskItemContainer.remove();
+    }
+  }
+
+  updateLocalStorage();
+};
+
+const handleInputChange = () => {
+  const inputIsValid = validateInput();
+
+  if (inputIsValid) {
+    return inputElement.classList.remove("erro");
+  }
+};
+
+const updateLocalStorage = () => {
+  const tarefa = tasksContainer.childNodes;
+
+  const localStorageTasks = [...tarefa].map((task) => {
+    const content = task.firstChild;
+    const isCompleted = content.classList.contains("completo");
+
+    return { description: content.innerText, isCompleted };
+  });
+
+  localStorage.setItem("tarefa", JSON.stringify(localStorageTasks));
+};
+
+const refreshTasksUsingLocalStorage = () => {const tasksFromLocalStorage = JSON.parse(localStorage.getItem("tarefa"));
+
+  if (!tasksFromLocalStorage) return;
+
+  for (const task of tasksFromLocalStorage) {
+    const taskItemContainer = document.createElement("div");
+    taskItemContainer.classList.add("task-item");
+
+    const taskContent = document.createElement("p");
+    taskContent.innerText = task.description;
+
+    if (task.isCompleted) {
+      taskContent.classList.add("completo");
+    }
+
+    taskContent.addEventListener("click", () => handleClick(taskContent));
+
+    const deleteItem = document.createElement("i");
+    deleteItem.classList.add("far");
+    deleteItem.classList.add("fa-trash-alt");
+
+    deleteItem.addEventListener("click", () =>
+      handleDeleteClick(taskItemContainer, taskContent)
+    );
+
+    taskItemContainer.appendChild(taskContent);
+    taskItemContainer.appendChild(deleteItem);
+
+    tasksContainer.appendChild(taskItemContainer);
+  }
+};
+
+refreshTasksUsingLocalStorage();
+
+addTaskButton.addEventListener("click", () => handleAddTask());
+
+inputElement.addEventListener("muda", () => handleInputChange());
+    </script>
+   
+  <style>  
+  * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  height: 100vh;
+  background: linear-gradient(
+    90deg,
+    rgba(9, 9, 121, 100) 0%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  border: 2px solid #fff;
+  padding: 30px 40px;
+  width: 40%;
+  min-width: 500px;
+}
+
+.new-task-container {
+  background-color: #fff;
+  padding: 30px 20px;
+  border-radius: 5px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  display: flex;
+}
+
+.new-task-container input {
+  flex: 3;
+  font-size: 1rem;
+  border: 2px solid #d1d3d4;
+  border-radius: 5px;
+  padding: 12px;
+  font-weight: 500;
+}
+
+.new-task-container input:focus {
+  outline: none;
+  border-color: #41b883;
+}
+
+.new-task-button {
+  flex: 1;
+  border-radius: 5px;
+  font-weight: 500;
+  height: 100%;
+  font-size: 1rem;
+  border: none;
+  background-color: #33cc33;
+  color: #fff;
+  padding: 12px;
+  margin-left: 12px;
+  cursor: pointer;
+}
+
+.tasks-container {
+  background-color: #fff;
+  padding: 30px 20px;
+  margin-top: 60px;
+  border-radius: 10px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  width: 100%;
+}
+
+.task-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  margin-top: 6px;
+}
+
+.task-item i {
+  background-color: #41b883;
+  color: #fff;
+  padding: 12px;
+  border-radius: 5px;
+}
+
+.task-item i:hover {
+  cursor: pointer;
+}
+
+/* utilidades */
+.erro {
+  border: 2px solid red !important;
+}
+
+.erro::placeholder {
+  color: red;
+}
+
+.completo {
+  text-decoration: line-through;
+}    
+  </style>
+  </body>
+</html>
