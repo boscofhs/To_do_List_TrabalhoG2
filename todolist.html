@@ -12,26 +12,26 @@
   </head>
   <body>
   <div class="form">
-      
+     
       <ul class="tab-group">
         <li class="tab active"><a href="#cadastro">Cadastro</li>
         <li class="tab"><a href="#entrar">Entrar</a></li>
       </ul>
-      
+     
       <div class="tab-content">
-        <div id="cadastro">   
+        <div id="cadastro">  
           <h1>Cadastre-se</h1>
-          
+         
           <form action="/" method="post">
-          
+         
           <div class="top-row">
             <div class="field-wrap">
               <label>
                 Nome<span class="req">*</span>
               </label>
-              <input type="text" name="nome" id="nome" required autocomplete="off" />
+              <input type="text" name="nome" id="nome" minlength="10" required autocomplete="off" />
             </div>
-        
+       
             <div class="field-wrap">
               <label>
                 E-mail<span class="req">*</span>
@@ -46,50 +46,49 @@
             </label>
             <input name="senha" id="senha" type="password"required autocomplete="off"/>
           </div>
-          
+         
           <div class="field-wrap">
             <label>
               Confirme a senha<span class="req">*</span>
             </label>
             <input name="senhaC" id="senhaC" type="password"required autocomplete="off"/>
           </div>
-          
-          <button type="submit" class="button button-block"/>Cadastrar-se</button>
-          
+         
+          <button type="submit" class="button button-block" onclick="mostra_c()" />Cadastrar-se</button>
+         
           </form>
 
         </div>
-        
-        <div id="entrar">   
+       
+        <div id="entrar">  
           <h1>Entrar</h1>
-          
+         
           <form action="/" method="post">
-          
+         
             <div class="field-wrap">
             <label>
               E-mail<span class="req">*</span>
             </label>
             <input type="email"required autocomplete="off"/>
           </div>
-          
+         
           <div class="field-wrap">
             <label>
               Senha<span class="req">*</span>
             </label>
             <input type="password"required autocomplete="off"/>
           </div>
-          
-          <button class="button button-block"/>Entrar</button>
-          
+         
+          <button class="button button-block" onclick="mostra_e()" />Entrar</button>
+         
           </form>
 
         </div>
-        
+       
       </div>
-      
+     
 </div>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <div class="container">
+    <div id="todolist" class="container";>
       <div class="new-task-container">
         <input
           type="text"
@@ -101,21 +100,48 @@
       </div>
 
       <div class="tasks-container"></div>
+	  <br><br>
+	  <button class="botaomostra" onclick="mostra_d()">Mostrar Dados</button>
+
     </div>
+	<div class="dados_perfil">
+	<p>Nome(Login): </p>
+	<br>
+	<p>E-mail: </p>
+	<br>
+	<p>Senha: </p>
+	<br>
+	</div>
+	
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
 
-var nome = document.getElementById("nome")
-function validarNome(){
-  if(nome.length <10){
-    nome.setCustomValidity("O nome deve ter pelo menos  10 caracteres!");
+function mostra_c() {
+  var x = document.getElementById("todolist");
+  if (x.style.display === "none") {
+    x.style.display = "block";
   } else {
-    nome.setCustomValidity('');
+    x.style.display = "none";
   }
 }
 
-nome.onchange = validarNome;
-nome.onkeyup = validarNome
+function mostra_e() {
+  var x = document.getElementById("todolist");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
+function mostra_d() {
+  var x = document.getElementById("dados_perfil");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
 
 var senha = document.getElementById("senha")
 var senhaC = document.getElementById("senhaC")
@@ -131,53 +157,53 @@ function validarSenha(){
 senha.onchange = validarSenha;
 senhaC.onkeyup = validarSenha
 
-	$('.form').find('input, textarea').on('keyup blur focus', function (e) {
-  
+$('.form').find('input, textarea').on('keyup blur focus', function (e) {
+ 
   var $this = $(this),
       label = $this.prev('label');
 
-	  if (e.type === 'keyup') {
-			if ($this.val() === '') {
+ if (e.type === 'keyup') {
+if ($this.val() === '') {
           label.removeClass('active highlight');
         } else {
           label.addClass('active highlight');
         }
     } else if (e.type === 'blur') {
-    	if( $this.val() === '' ) {
-    		label.removeClass('active highlight'); 
-			} else {
-		    label.removeClass('highlight');   
-			}   
+    if( $this.val() === '' ) {
+    label.removeClass('active highlight');
+} else {
+   label.removeClass('highlight');  
+}  
     } else if (e.type === 'focus') {
-      
+     
       if( $this.val() === '' ) {
-    		label.removeClass('highlight'); 
-			} 
+    label.removeClass('highlight');
+}
       else if( $this.val() !== '' ) {
-		    label.addClass('highlight');
-			}
+   label.addClass('highlight');
+}
     }
 
 });
 
 $('.tab a').on('click', function (e) {
-  
+ 
   e.preventDefault();
-  
+ 
   $(this).parent().addClass('active');
   $(this).parent().siblings().removeClass('active');
-  
+ 
   target = $(this).attr('href');
 
   $('.tab-content > div').not(target).hide();
-  
+ 
   $(target).fadeIn(600);
-  
+ 
 });
 
 </script>
 <script>
-	
+
     const inputElement = document.querySelector(".new-task-input");
 const addTaskButton = document.querySelector(".new-task-button");
 
@@ -306,6 +332,7 @@ refreshTasksUsingLocalStorage();
 addTaskButton.addEventListener("click", () => handleAddTask());
 
 inputElement.addEventListener("muda", () => handleInputChange());
+
     </script>
    
   <style>
@@ -333,7 +360,7 @@ $br: 4px;
 }
 
 html {
-	overflow-y: scroll; 
+overflow-y: scroll;
 }
 
 body {
@@ -360,6 +387,7 @@ a {
 }
 
 .tab-group {
+  color=green;
   list-style:none;
   padding:0;
   margin:0 0 40px 0;
@@ -413,8 +441,8 @@ label {
   pointer-events: none;
   font-size:22px;
   .req {
-  	margin:2px;
-  	color:$main;
+  margin:2px;
+  color:$main;
   }
 }
 
@@ -428,7 +456,7 @@ label.active {
 }
 
 label.highlight {
-	color:$white;
+color:$white;
 }
 
 input, textarea {
@@ -444,8 +472,8 @@ input, textarea {
   border-radius:0;
   transition:border-color .25s ease, box-shadow .25s ease;
   &:focus {
-		outline:0;
-		border-color:$main;
+outline:0;
+border-color:$main;
   }
 }
 
@@ -470,7 +498,7 @@ textarea {
     float:left;
     width:48%;
     margin-right:4%;
-    &:last-child { 
+    &:last-child {
       margin:0;
     }
   }
@@ -503,7 +531,7 @@ textarea {
   margin-top:-20px;
   text-align:right;
 }
-  
+ 
   * {
   margin: 0;
   padding: 0;
@@ -524,10 +552,34 @@ body {
 }
 
 .container {
+  display:none;
   border: 2px solid #fff;
   padding: 30px 40px;
   width: 40%;
   min-width: 500px;
+}
+
+.dados_perfil {
+  display:none;
+  border: 2px solid #fff;
+  padding: 30px 40px;
+  height:30%;
+  width: 35%;
+  min-width: 500px;
+}
+
+.botaomostra {
+  flex: 1;
+  border-radius: 5px;
+  font-weight: 500;
+  height: 100%;
+  font-size: 1rem;
+  border: none;
+  background-color: #33cc33;
+  color: #fff;
+  padding: 12px;
+  margin-left: 12px;
+  cursor: pointer;
 }
 
 .new-task-container {
