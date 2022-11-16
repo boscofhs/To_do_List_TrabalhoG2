@@ -14,7 +14,7 @@
   <div class="form">
      
       <ul class="tab-group">
-        <li class="tab active"><a href="#cadastro">Cadastro</li>
+      <li class="tab active"><a href="#cadastro">Cadastro</a></li>
         <li class="tab"><a href="#entrar">Entrar</a></li>
       </ul>
      
@@ -29,14 +29,14 @@
               <label>
                 Nome<span class="req">*</span>
               </label>
-              <input type="text" name="nome" id="nome" minlength="10" required autocomplete="off" />
+              <input type="text" name="nomeID" id="nome" minlength="10" required autocomplete="off" />
             </div>
        
             <div class="field-wrap">
               <label>
                 E-mail<span class="req">*</span>
               </label>
-              <input type="email"required autocomplete="off"/>
+              <input id="emailID" name="email" type="email" required autocomplete="off"/>
             </div>
           </div>
 
@@ -44,7 +44,7 @@
             <label>
               Senha<span class="req">*</span>
             </label>
-            <input name="senha" id="senha" type="password"required autocomplete="off"/>
+            <input name="senha" id="senhaID" type="password"required autocomplete="off"/>
           </div>
          
           <div class="field-wrap">
@@ -54,7 +54,7 @@
             <input name="senhaC" id="senhaC" type="password"required autocomplete="off"/>
           </div>
          
-          <button type="submit" class="button button-block" onclick="mostra_c()" />Cadastrar-se</button>
+          <button type="submit" class="button button-block" onclick="mostra_c()">Cadastrar-se</button>
          
           </form>
 
@@ -79,7 +79,7 @@
             <input type="password"required autocomplete="off"/>
           </div>
          
-          <button class="button button-block" onclick="mostra_e()" />Entrar</button>
+          <button class="button button-block" onclick="mostra_e()">Entrar</button>
          
           </form>
 
@@ -100,21 +100,23 @@
       </div>
 
       <div class="tasks-container"></div>
-	  <br><br>
-	  <button class="botaomostra" onclick="mostra_d()">Mostrar Dados</button>
-
+	  <br><br><br>
+        <div id="dados_perfil">
+        <p>Nome(Login): </p><p id="nome_dados"></p>  
+        <br>
+        <p>E-mail: </p><p id="email_dados"></p>
+        <br>
+        <p>Senha: </p><p id="senha_dados"></p>
+        <br>
+        </div>
     </div>
-	<div class="dados_perfil">
-	<p>Nome(Login): </p>
-	<br>
-	<p>E-mail: </p>
-	<br>
-	<p>Senha: </p>
-	<br>
-	</div>
 	
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script>
+<script>
+
+var nome_dados = document.getElementById("nomeID").innerHTML = nome_dados.value;
+var email_dados = document.getElementById("emailID").innerHTML = email_dados.value;
+var senha_dados = document.getElementById("senhaID").innerHTML = senha_dados.value;
 
 function mostra_c() {
   var x = document.getElementById("todolist");
@@ -123,6 +125,7 @@ function mostra_c() {
   } else {
     x.style.display = "none";
   }
+  document.getElementById("form").style.display = "none";
 }
 
 function mostra_e() {
@@ -132,15 +135,7 @@ function mostra_e() {
   } else {
     x.style.display = "none";
   }
-}
-
-function mostra_d() {
-  var x = document.getElementById("dados_perfil");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
+  document.getElementById("form").style.display = "none";
 }
 
 var senha = document.getElementById("senha")
@@ -559,27 +554,12 @@ body {
   min-width: 500px;
 }
 
-.dados_perfil {
-  display:none;
+#dados_perfil {
+  display:block;
   border: 2px solid #fff;
   padding: 30px 40px;
   height:30%;
-  width: 35%;
-  min-width: 500px;
-}
-
-.botaomostra {
-  flex: 1;
-  border-radius: 5px;
-  font-weight: 500;
-  height: 100%;
-  font-size: 1rem;
-  border: none;
-  background-color: #33cc33;
-  color: #fff;
-  padding: 12px;
-  margin-left: 12px;
-  cursor: pointer;
+  min-width: 400px;
 }
 
 .new-task-container {
