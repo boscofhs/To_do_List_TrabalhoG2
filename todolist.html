@@ -1,338 +1,9 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Lista de Tarefas</title>
+<head>
+<title> To do List(João Bosco, Abrahão Rigel - INF 171) </title>
 
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./styles.css" />
-  </head>
-  <body>
-  <div class="form">
-     
-      <ul class="tab-group">
-      <li class="tab active"><a href="#cadastro">Cadastro</a></li>
-        <li class="tab"><a href="#entrar">Entrar</a></li>
-      </ul>
-     
-      <div class="tab-content">
-        <div id="cadastro">  
-          <h1>Cadastre-se</h1>
-         
-          <form action="/" method="post">
-         
-          <div class="top-row">
-            <div class="field-wrap">
-              <label>
-                Nome<span class="req">*</span>
-              </label>
-              <input type="text" name="nomeID" id="nome" minlength="10" required autocomplete="off" />
-            </div>
-       
-            <div class="field-wrap">
-              <label>
-                E-mail<span class="req">*</span>
-              </label>
-              <input id="emailID" name="email" type="email" required autocomplete="off"/>
-            </div>
-          </div>
-
-          <div class="field-wrap">
-            <label>
-              Senha<span class="req">*</span>
-            </label>
-            <input name="senha" id="senhaID" type="password"required autocomplete="off"/>
-          </div>
-         
-          <div class="field-wrap">
-            <label>
-              Confirme a senha<span class="req">*</span>
-            </label>
-            <input name="senhaC" id="senhaC" type="password"required autocomplete="off"/>
-          </div>
-         
-          <button type="submit" class="button button-block" onclick="mostra_c()">Cadastrar-se</button>
-         
-          </form>
-
-        </div>
-       
-        <div id="entrar">  
-          <h1>Entrar</h1>
-         
-          <form action="/" method="post">
-         
-            <div class="field-wrap">
-            <label>
-              E-mail<span class="req">*</span>
-            </label>
-            <input type="email"required autocomplete="off"/>
-          </div>
-         
-          <div class="field-wrap">
-            <label>
-              Senha<span class="req">*</span>
-            </label>
-            <input type="password"required autocomplete="off"/>
-          </div>
-         
-          <button class="button button-block" onclick="mostra_e()">Entrar</button>
-         
-          </form>
-
-        </div>
-       
-      </div>
-     
-</div>
-    <div id="todolist" class="container";>
-      <div class="new-task-container">
-        <input
-          type="text"
-          class="new-task-input"
-          placeholder="Tarefa para ser feita..."
-        />
-
-        <button class="new-task-button">Adicionar</button>
-      </div>
-
-      <div class="tasks-container"></div>
-	  <br><br><br>
-        <div id="dados_perfil">
-        <p>Nome(Login): </p><p id="nome_dados"></p>  
-        <br>
-        <p>E-mail: </p><p id="email_dados"></p>
-        <br>
-        <p>Senha: </p><p id="senha_dados"></p>
-        <br>
-        </div>
-    </div>
-	
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script>
-
-var nome_dados = document.getElementById("nomeID").innerHTML = nome_dados.value;
-var email_dados = document.getElementById("emailID").innerHTML = email_dados.value;
-var senha_dados = document.getElementById("senhaID").innerHTML = senha_dados.value;
-
-function mostra_c() {
-  var x = document.getElementById("todolist");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-  document.getElementById("form").style.display = "none";
-}
-
-function mostra_e() {
-  var x = document.getElementById("todolist");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-  document.getElementById("form").style.display = "none";
-}
-
-var senha = document.getElementById("senha")
-var senhaC = document.getElementById("senhaC")
-
-function validarSenha(){
-  if(senha.value != senhaC.value) {
-    senhaC.setCustomValidity("Senhas diferentes!");
-  } else {
-    senhaC.setCustomValidity('');
-  }
-}
-
-senha.onchange = validarSenha;
-senhaC.onkeyup = validarSenha
-
-$('.form').find('input, textarea').on('keyup blur focus', function (e) {
- 
-  var $this = $(this),
-      label = $this.prev('label');
-
- if (e.type === 'keyup') {
-if ($this.val() === '') {
-          label.removeClass('active highlight');
-        } else {
-          label.addClass('active highlight');
-        }
-    } else if (e.type === 'blur') {
-    if( $this.val() === '' ) {
-    label.removeClass('active highlight');
-} else {
-   label.removeClass('highlight');  
-}  
-    } else if (e.type === 'focus') {
-     
-      if( $this.val() === '' ) {
-    label.removeClass('highlight');
-}
-      else if( $this.val() !== '' ) {
-   label.addClass('highlight');
-}
-    }
-
-});
-
-$('.tab a').on('click', function (e) {
- 
-  e.preventDefault();
- 
-  $(this).parent().addClass('active');
-  $(this).parent().siblings().removeClass('active');
- 
-  target = $(this).attr('href');
-
-  $('.tab-content > div').not(target).hide();
- 
-  $(target).fadeIn(600);
- 
-});
-
-</script>
-<script>
-
-    const inputElement = document.querySelector(".new-task-input");
-const addTaskButton = document.querySelector(".new-task-button");
-
-const tasksContainer = document.querySelector(".tasks-container");
-
-const validateInput = () => inputElement.value.trim().length > 0;
-
-const handleAddTask = () => {
-  const inputIsValid = validateInput();
-
-  console.log(inputIsValid);
-
-  if (!inputIsValid) {
-    return inputElement.classList.add("erro");
-  }
-
-  const taskItemContainer = document.createElement("div");
-  taskItemContainer.classList.add("task-item");
-
-  const taskContent = document.createElement("p");
-  taskContent.innerText = inputElement.value;
-
-  taskContent.addEventListener("click", () => handleClick(taskContent));
-
-  const deleteItem = document.createElement("i");
-  deleteItem.classList.add("far");
-  deleteItem.classList.add("fa-trash-alt");
-
-  deleteItem.addEventListener("click", () =>
-    handleDeleteClick(taskItemContainer, taskContent)
-  );
-
-  taskItemContainer.appendChild(taskContent);
-  taskItemContainer.appendChild(deleteItem);
-
-  tasksContainer.appendChild(taskItemContainer);
-
-  inputElement.value = "";
-
-  updateLocalStorage();
-};
-
-const handleClick = (taskContent) => {
-  const tarefa = tasksContainer.childNodes;
-
-  for (const task of tarefa) {
-    const currentTaskIsBeingClicked = task.firstChild.isSameNode(taskContent);
-
-    if (currentTaskIsBeingClicked) {
-      task.firstChild.classList.toggle("completo");
-    }
-  }
-
-  updateLocalStorage();
-};
-
-const handleDeleteClick = (taskItemContainer, taskContent) => {
-  const tarefa = tasksContainer.childNodes;
-
-  for (const task of tarefa) {
-    const currentTaskIsBeingClicked = task.firstChild.isSameNode(taskContent);
-
-    if (currentTaskIsBeingClicked) {
-      taskItemContainer.remove();
-    }
-  }
-
-  updateLocalStorage();
-};
-
-const handleInputChange = () => {
-  const inputIsValid = validateInput();
-
-  if (inputIsValid) {
-    return inputElement.classList.remove("erro");
-  }
-};
-
-const updateLocalStorage = () => {
-  const tarefa = tasksContainer.childNodes;
-
-  const localStorageTasks = [...tarefa].map((task) => {
-    const content = task.firstChild;
-    const isCompleted = content.classList.contains("completo");
-
-    return { description: content.innerText, isCompleted };
-  });
-
-  localStorage.setItem("tarefa", JSON.stringify(localStorageTasks));
-};
-
-const refreshTasksUsingLocalStorage = () => {const tasksFromLocalStorage = JSON.parse(localStorage.getItem("tarefa"));
-
-  if (!tasksFromLocalStorage) return;
-
-  for (const task of tasksFromLocalStorage) {
-    const taskItemContainer = document.createElement("div");
-    taskItemContainer.classList.add("task-item");
-
-    const taskContent = document.createElement("p");
-    taskContent.innerText = task.description;
-
-    if (task.isCompleted) {
-      taskContent.classList.add("completo");
-    }
-
-    taskContent.addEventListener("click", () => handleClick(taskContent));
-
-    const deleteItem = document.createElement("i");
-    deleteItem.classList.add("far");
-    deleteItem.classList.add("fa-trash-alt");
-
-    deleteItem.addEventListener("click", () =>
-      handleDeleteClick(taskItemContainer, taskContent)
-    );
-
-    taskItemContainer.appendChild(taskContent);
-    taskItemContainer.appendChild(deleteItem);
-
-    tasksContainer.appendChild(taskItemContainer);
-  }
-};
-
-refreshTasksUsingLocalStorage();
-
-addTaskButton.addEventListener("click", () => handleAddTask());
-
-inputElement.addEventListener("muda", () => handleInputChange());
-
-    </script>
-   
-  <style>
-
-  @import "compass/css3";
+<style>
 
 $body-bg: #c1bdba;
 $form-bg: #13232f;
@@ -350,10 +21,6 @@ $normal: 400;
 $bold: 600;
 $br: 4px;
 
-*, *:before, *:after {
-  box-sizing: border-box;
-}
-
 html {
 overflow-y: scroll;
 }
@@ -363,13 +30,22 @@ body {
   font-family: 'Titillium Web', sans-serif;
 }
 
-a {
-  text-decoration:none;
-  color:$main;
-  transition:.5s ease;
-  &:hover {
-    color:$main-dark;
-  }
+#lista {
+  background: #2e2f30;
+  color: white;
+  padding: 40px;
+}
+
+#tasks {
+  background-color: #2e2f30;
+  color: gray;
+  border: 2px solid #1a1a19;
+  text-align: center;
+}
+
+.fechar {
+  background-color: red;
+  color: white;
 }
 
 .form {
@@ -381,80 +57,21 @@ a {
   box-shadow:0 4px 10px 4px rgba($form-bg,.3);
 }
 
-.tab-group {
-  color=green;
-  list-style:none;
-  padding:0;
-  margin:0 0 40px 0;
-  &:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
-  li a {
-    display:block;
-    text-decoration:none;
-    padding:15px;
-    background:rgba($gray-light,.25);
-    color:$gray-light;
-    font-size:20px;
-    float:left;
-    width:50%;
-    text-align:center;
-    cursor:pointer;
-    transition:.5s ease;
-    &:hover {
-      background:$main-dark;
-      color:$white;
-    }
-  }
-  .active a {
-    background:$main;
-    color:$white;
-  }
-}
-
-.tab-content > div:last-child {
-  display:none;
-}
-
-
 h1 {
   text-align:center;
-  color:$white;
-  font-weight:$thin;
+  color:white;
+  font-weight:thin;
   margin:0 0 40px;
 }
 
-label {
-  position:absolute;
-  transform:translateY(6px);
-  left:13px;
-  color:rgba($white,.5);
-  transition:all 0.25s ease;
-  -webkit-backface-visibility: hidden;
-  pointer-events: none;
-  font-size:22px;
-  .req {
-  margin:2px;
-  color:$main;
-  }
+h2 {
+  text-align:center;
+  color:white;
+  font-weight:thin;
+  margin:0 0 40px;
 }
 
-label.active {
-  transform:translateY(50px);
-  left:2px;
-  font-size:14px;
-  .req {
-    opacity:0;
-  }
-}
-
-label.highlight {
-color:$white;
-}
-
-input, textarea {
+input{
   font-size:22px;
   display:block;
   width:100%;
@@ -472,34 +89,31 @@ border-color:$main;
   }
 }
 
-textarea {
-  border:2px solid $gray-light;
-  resize: vertical;
+#botao2 {
+    background: green;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    display: inline;
+    font-weight: 100;
+    letter-spacing: 1px;
+    margin-right: 1rem;
+    padding: .5rem .6125rem;  
 }
 
-.field-wrap {
-  position:relative;
-  margin-bottom:40px;
+#botao3 {
+   background: cyan;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    display: inline;
+    font-weight: 100;
+    letter-spacing: 1px;
+    margin-right: 1rem;
+    padding: .5rem .6125rem;  
 }
 
-.top-row {
-  &:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
-
-  > div {
-    float:left;
-    width:48%;
-    margin-right:4%;
-    &:last-child {
-      margin:0;
-    }
-  }
-}
-
-.button {
+#botao1 {
   border:0;
   outline:none;
   border-radius:0;
@@ -513,19 +127,7 @@ textarea {
   transition:all.5s ease;
   -webkit-appearance: none;
   &:hover, &:focus {
-    background:$main-dark;
-  }
-}
-
-.button-block {
-  display:block;
-  width:100%;
-}
-
-.forgot {
-  margin-top:-20px;
-  text-align:right;
-}
+  background:$main-dark;}}
  
   * {
   margin: 0;
@@ -546,98 +148,121 @@ body {
   justify-content: center;
 }
 
-.container {
-  display:none;
-  border: 2px solid #fff;
-  padding: 30px 40px;
-  width: 40%;
-  min-width: 500px;
-}
+</style>
+</head>
 
-#dados_perfil {
-  display:block;
-  border: 2px solid #fff;
-  padding: 30px 40px;
-  height:30%;
-  min-width: 400px;
-}
+<body>
+      <div id="cadastroY" class="cadastroY">
+      <h1 id="cadas" class="cadas"> CADASTRO </h1>
+      <input type="text" id="usuario" class="input" name="usuario" placeholder="Usuário">
+              <br>
+              <input type="text" id="nome" class="input" name="nome" placeholder="Nome">
+              <br>
+              <form method="post" action="" name="FormSend">
+              <input type="text" id="email" class="input" name="email" placeholder="E-mail">
+              <br>
+              </form>
+              <input type="text" id="senha" class="input" name="senha" placeholder="Senha">
+              <br>
+              <input type="text" id="confirmar" class="input" name="confirmar" placeholder="Confirmar Senha">
+              <br>
+              <button onclick="cadastrarDados();" class="button" id="botao1"> Cadastrar </button>
+      </div>  
+     
+      <div id="lista" class="lista">      
+        <h2 id="x" class="x"> TO DO LIST </h2>
+        <input type="text" id="texto" class="input" placeholder="Digite sua tarefa aqui">
+        <br><br>
+        <button onclick="adicionarTarefa();" class="button"  id="botao2">Adicionar Tarefa</button>
+        <button onclick="mostrarDados();" class="button" id="botao3">Mostrar Dados Cadastrados</button>
+    <br><br><br>
+    <div align ="left" id="tasks" class="fechar" >
+    <br>
+    </div>
+    </div>
+    <div id="login">  </div>
 
-.new-task-container {
-  background-color: #fff;
-  padding: 30px 20px;
-  border-radius: 5px;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-  display: flex;
-}
+<script>
 
-.new-task-container input {
-  flex: 3;
-  font-size: 1rem;
-  border: 2px solid #d1d3d4;
-  border-radius: 5px;
-  padding: 12px;
-  font-weight: 500;
-}
+var lista = document.getElementById("lista");
+lista.style.display = "none";
 
-.new-task-container input:focus {
-  outline: none;
-  border-color: #41b883;
-}
+<!--> Cadastrar Dados
 
-.new-task-button {
-  flex: 1;
-  border-radius: 5px;
-  font-weight: 500;
-  height: 100%;
-  font-size: 1rem;
-  border: none;
-  background-color: #33cc33;
-  color: #fff;
-  padding: 12px;
-  margin-left: 12px;
-  cursor: pointer;
-}
+        function cadastrarDados() {
+            const nome = document.getElementById("nome").value;
+            const usuario = document.getElementById("usuario").value;
+            const email = document.getElementById("email").value;
+            const senha = document.getElementById("senha").value;
+            const confirmar = document.getElementById("confirmar").value;
+            if(nome==""){
+            alert("Digite um nome.");}
+            else if(usuario==""){
+            alert("Digite um usuário.");}
+            else if(email==""){
+            alert("Digite um email.");}
+            else if(senha==""){
+            alert("Digite uma senha.");}
+            else if(confirmar==""){
+            alert("Confirme sua senha.");}
+            else if(senha!=confirmar){
+            alert("As senhas são diferentes!");}
 
-.tasks-container {
-  background-color: #fff;
-  padding: 30px 20px;
-  margin-top: 60px;
-  border-radius: 10px;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-  width: 100%;
-}
+else if(usuario.length >10){
+alert("O usuário deve ter menos de 10 caracteres.");}
+else if(nome.length <=10){
+alert("O nome deve ter mais de 10 caracteres.");}
+else if( document.forms[0].email.value.indexOf('@')==-1 || document.forms[0].email.value.indexOf('.com')==-1 ){alert("Informe um E-mail válido." );}
 
-.task-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 6px;
-  margin-top: 6px;
-}
+else {
+var cadastroY = document.getElementById("cadastroY");
+cadastroY.style.display = "none";
+document.getElementById("lista");
+lista.style.display = "block";
+var tasks = document.getElementById("tasks");
+tasks.style.display = "block";}}
+   
+<!--> Mostrar Dados
+   
+    function mostrarDados(){
+        var p=document.createElement('div');
+        p.innerHTML="Nome: "+document.getElementsByTagName('input')[0].value +"<br>"+"Usuário: "+document.getElementsByTagName('input')[1].value+"<br>"+"E-mail: "+document.getElementsByTagName('input')[2].value+"<br>"+"Senha: "+document.getElementsByTagName('input')[3].value;;
+           
+        var login=document.getElementById("login");
+            login.appendChild(p);
+            login.style.display = "block";        
+            document.getElementsByTagName("botao3").style.display="none";}
+   
+ <!--> Adicionar Tarefas
+   
+function adicionarTarefa() {
+            var content=1;
+            var c1 = document.getElementById("texto").value;
+            if(c1!=""){
+            var nova1 = document.createTextNode(c1);
+            var nova2 = document.createElement('div');
+            nova2.className = 'itens';
+            var button = document.createElement('button');
+            var check = document.createElement('input');
+            check.setAttribute("type", "checkbox");                    
+            button.addEventListener("click", function () {
+            nova2.remove();})
+            nova2.appendChild(check);
+            nova2.appendChild(nova1);
+            nova2.appendChild(button);
+            document.getElementById('tasks').appendChild(nova2);
+            document.getElementById("texto").value = "";
+            button.innerHTML = "X";
+           
+       check.addEventListener("change", function () {              
+                if (content==1){
+                content=2;
+                }
+                else if (content==2){
+                content=1;
+                }})
+}}
 
-.task-item i {
-  background-color: #41b883;
-  color: #fff;
-  padding: 12px;
-  border-radius: 5px;
-}
-
-.task-item i:hover {
-  cursor: pointer;
-}
-
-/* utilidades */
-.erro {
-  border: 2px solid red !important;
-}
-
-.erro::placeholder {
-  color: red;
-}
-
-.completo {
-  text-decoration: line-through;
-}    
-  </style>
-  </body>
+</script>
+</body>
 </html>
