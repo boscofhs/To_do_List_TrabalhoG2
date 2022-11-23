@@ -30,10 +30,18 @@ body {
   font-family: 'Titillium Web', sans-serif;
 }
 
+.item{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding: 10px;
+}
+
 #lista {
   background: #2e2f30;
   color: white;
   padding: 40px;
+
 }
 
 #tasks {
@@ -41,6 +49,9 @@ body {
   color: gray;
   border: 2px solid #1a1a19;
   text-align: center;
+  padding: 40px;
+  box-shadow: 10px 10px;
+  border-radius: 20px;
 }
 
 .fechar {
@@ -102,7 +113,7 @@ border-color:$main;
 }
 
 #botao3 {
-   background: cyan;
+    background: cyan;
     border-radius: 5px;
     border: none;
     color: white;
@@ -114,6 +125,8 @@ border-color:$main;
 }
 
 #botao1 {
+  margin: auto;
+  width: 300px;
   border:0;
   outline:none;
   border-radius:0;
@@ -148,6 +161,16 @@ body {
   justify-content: center;
 }
 
+footer {
+    position: absolute;
+    bottom: 0;
+    color: #FFF;
+    width: 100%;
+    height: 35px;    
+    text-align: center;
+    line-height: 50px;
+}
+
 </style>
 </head>
 
@@ -179,8 +202,12 @@ body {
     <div align ="left" id="tasks" class="fechar" >
     <br>
     </div>
-    </div>
+    <br><br><br>
     <div id="login">  </div>
+    </div>
+    <footer id="footer">
+    <p> João Bosco e Abrahão Rigel - INF 171 </p>
+    </footer>
 
 <script>
 
@@ -220,7 +247,9 @@ cadastroY.style.display = "none";
 document.getElementById("lista");
 lista.style.display = "block";
 var tasks = document.getElementById("tasks");
-tasks.style.display = "block";}}
+tasks.style.display = "block";
+footer.style.textAlign="right";}}
+
    
 <!--> Mostrar Dados
    
@@ -230,8 +259,8 @@ tasks.style.display = "block";}}
            
         var login=document.getElementById("login");
             login.appendChild(p);
-            login.style.display = "block";        
-            document.getElementsByTagName("botao3").style.display="none";}
+            login.style.display = "block";
+            document.getElementById("botao3").style.display="none";}
    
  <!--> Adicionar Tarefas
    
@@ -241,7 +270,7 @@ function adicionarTarefa() {
             if(c1!=""){
             var nova1 = document.createTextNode(c1);
             var nova2 = document.createElement('div');
-            nova2.className = 'itens';
+            nova2.className = 'item';
             var button = document.createElement('button');
             var check = document.createElement('input');
             check.setAttribute("type", "checkbox");                    
@@ -252,7 +281,10 @@ function adicionarTarefa() {
             nova2.appendChild(button);
             document.getElementById('tasks').appendChild(nova2);
             document.getElementById("texto").value = "";
+            button.style.marginLeft="15px";
             button.innerHTML = "X";
+            button.style.backgroundColor = "red";
+            button.style.color = "white";
            
        check.addEventListener("change", function () {              
                 if (content==1){
